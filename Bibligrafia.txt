@@ -1,3 +1,5 @@
 Assety do modelów statków:
 https://assetstore.unity.com/packages/3d/vehicles/sea/simple-warships-132302
 
+Assety do terenu:
+https://assetstore.unity.com/packages/3d/environments/landscapes/terrain-sample-asset-pack-145808
