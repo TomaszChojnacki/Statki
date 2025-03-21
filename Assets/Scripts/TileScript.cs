@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    GameManager gameManager;
+    Ray ray;
+    RaycastHit hit;
+
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                gameManager.TileClicked(hit.collider.gameObject);
+            }
+        }
     }
 }

@@ -1,16 +1,30 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public class ShipScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    List<GameObject> touchTiles = new List<GameObject>();
+    public float xOffset = 0;
+    public float zOffset = 0;
+
+
+    public void ClearTileList()
     {
-        
+        touchTiles.Clear();
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 GetOffsetVec(Vector3 tilePos)
     {
-        
+        return new Vector3(tilePos.x + xOffset,44, tilePos.z + zOffset);
     }
+
+
+
+    public void SetPosition(Vector3 newVec)
+    {
+        transform.localPosition = new Vector3(newVec.x + xOffset, 44, newVec.z + zOffset);
+    }
+
 }
