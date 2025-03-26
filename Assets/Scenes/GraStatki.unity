@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 15585460}
   - component: {fileID: 15585459}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: MenedzerGry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,12 +284,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b518b1e91b7af8f44a1ed439200d290a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ships:
+  statki:
   - {fileID: 1788238052}
   - {fileID: 1690584024}
   - {fileID: 1580488664}
   - {fileID: 1968855279}
   - {fileID: 2108123101}
+  przyciskNastepny: {fileID: 299684524}
+  przyciskObrotu: {fileID: 687792525}
 --- !u!4 &15585460
 Transform:
   m_ObjectHideFlags: 0
@@ -628,6 +630,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8e80fcfd003e84e849fe786fb822e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guessGrid: []
+  potentialHits: 
+  currentHits: 
+  guess: 0
+  enemyMissilePrefab: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!4 &102288640
 Transform:
   m_ObjectHideFlags: 0
@@ -2327,7 +2335,7 @@ GameObject:
   - component: {fileID: 299684525}
   - component: {fileID: 299684524}
   m_Layer: 5
-  m_Name: NextButton
+  m_Name: przyciskNastepny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3539,15 +3547,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4084037660503964, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000021855694
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4084037660503964, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4084037660503964, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4084037660503964, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3559,6 +3567,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4084037660503964, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235821373234889093, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
+      propertyPath: xOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235821373234889093, guid: aea52f5da97018c4aaecffcdfa9035d8, type: 3}
+      propertyPath: zOffset
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5632,7 +5648,7 @@ GameObject:
   - component: {fileID: 687792526}
   - component: {fileID: 687792525}
   m_Layer: 5
-  m_Name: RotateButton
+  m_Name: przyciskObrotu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8856,6 +8872,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5231479897567725145, guid: 87fbb3918fbc0654791e7387cfafaa12, type: 3}
+      propertyPath: xOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231479897567725145, guid: 87fbb3918fbc0654791e7387cfafaa12, type: 3}
+      propertyPath: zOffset
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11571,6 +11595,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2017323705581875239, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
+      propertyPath: xOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017323705581875239, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
+      propertyPath: zOffset
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13977,6 +14009,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8538588535620964117, guid: ec5d6bc6e2d4942448a8b3d9eddf3865, type: 3}
+      propertyPath: xOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538588535620964117, guid: ec5d6bc6e2d4942448a8b3d9eddf3865, type: 3}
+      propertyPath: zOffset
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14760,6 +14800,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4134487672752038, guid: 09419625ea90e2f478b96ae476784b2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224905995050614938, guid: 09419625ea90e2f478b96ae476784b2c, type: 3}
+      propertyPath: xOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224905995050614938, guid: 09419625ea90e2f478b96ae476784b2c, type: 3}
+      propertyPath: zOffset
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
