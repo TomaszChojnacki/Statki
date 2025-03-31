@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: ec5d6bc6e2d4942448a8b3d9eddf3865
-timeCreated: 1541120200
+guid: 74d0740f4abc7e54fab50d33af2582da
+timeCreated: 1541120260
 licenseType: Store
 NativeFormatImporter:
   externalObjects: {}
@@ -13,5 +13,5 @@ AssetOrigin:
   productId: 132302
   packageName: Simple Warships
   packageVersion: 1.0
-  assetPath: Assets/Simple Warships/Cruiser.prefab
+  assetPath: Assets/Simple Warships/Destroyer.prefab
   uploadId: 282744

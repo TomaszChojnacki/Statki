@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class SkryptPola : MonoBehaviour
 {
-    MenedzerGry menedzerGry;
+    MenadzerGry menadzerGry;
     Ray promien;
     RaycastHit trafienie;
 
     private bool trafionyPocisk = false;
-    Color32[] kolorTrafienia = new Color32[2];
+    Color32[] koloryTrafienia = new Color32[2];
 
     void Start()
     {
-        menedzerGry = GameObject.Find("MenedzerGry").GetComponent<MenedzerGry>();
+        menadzerGry = GameObject.Find("MenadzerGry").GetComponent<MenadzerGry>();
+        koloryTrafienia[0] = gameObject.GetComponent<MeshRenderer>().material.color;
+        koloryTrafienia[1] = gameObject.GetComponent<MeshRenderer>().material.color;
+
     }
 
     void Update()
@@ -25,9 +28,32 @@ public class SkryptPola : MonoBehaviour
             {
                 if (trafionyPocisk == false)
                 {
-                    menedzerGry.KliknietoPole(trafienie.collider.gameObject);
+                    menadzerGry.KliknietoPole(trafienie.collider.gameObject);
                 }
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision kolizja)
+    {
+        if (kolizja.gameObject.CompareTag("Pocisk"))
+        {
+            trafionyPocisk = true;
+        }
+        else if (kolizja.gameObject.CompareTag("PociskWroga"))
+        {
+            koloryTrafienia[0] = new Color32(38, 20, 76, 255);
+            GetComponent<Renderer>().material.color = koloryTrafienia[0];
+        }
+    }
+
+    public void UstawKolorPola(int index, Color32 kolor)
+    {
+        koloryTrafienia[index] = kolor;
+    }
+
+    public void ZmienKolory(int indeksKoloru)
+    {
+        GetComponent<Renderer>().material.color = koloryTrafienia[indeksKoloru];
     }
 }
