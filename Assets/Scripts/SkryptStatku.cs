@@ -61,6 +61,7 @@ public class SkryptStatku : MonoBehaviour
         WyczyscListePol();
         transform.localPosition = new Vector3(nowaPozycja.x + przesuniecieX, 42, nowaPozycja.z + przesuniecieZ);
 
+
     }
 
 

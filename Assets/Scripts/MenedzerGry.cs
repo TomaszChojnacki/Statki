@@ -97,6 +97,8 @@ public class MenadzerGry : MonoBehaviour
         skryptStatku = statki[indeksStatku].GetComponent<SkryptStatku>();
         skryptStatku.WyczyscListePol();
         Vector3 nowaPozycja = skryptStatku.PobierzPrzesuniecie(pole.transform.position);
+
+        Debug.Log("Pozycja ustawianego statku: " + nowaPozycja);
         statki[indeksStatku].transform.localPosition = nowaPozycja;
     }
 
@@ -158,8 +160,9 @@ public class MenadzerGry : MonoBehaviour
     public void WrogTrafilGracza(Vector3 pole, int numerPola, GameObject trafionyObiekt)
     {
         skryptWroga.TrafionyPocisk(numerPola);
-        pole.y += 0.2f;
-        ognieGracza.Add(Instantiate(ogienPrefab, pole, Quaternion.identity));
+        Vector3 pozycjaOgnia = pole + new Vector3(0, 8.0f, 0);
+        ognieGracza.Add(Instantiate(ogienPrefab, pozycjaOgnia, Quaternion.identity));
+
 
         if (trafionyObiekt.GetComponent<SkryptStatku>().SprawdzCzyZatopiony())
         {

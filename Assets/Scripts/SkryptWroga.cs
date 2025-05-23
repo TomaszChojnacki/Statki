@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class SkryptWroga : MonoBehaviour
@@ -30,48 +31,59 @@ public class SkryptWroga : MonoBehaviour
             new int[]{-1, -1}
         };
 
-        int[] numeryPól = Enumerable.Range(1, 100).ToArray();
-        bool zajête = true;
+        int[] numeryPol = Enumerable.Range(1, 100).ToArray();
+        bool zajete = true;
 
         foreach (int[] statek in statkiWroga)
         {
-            zajête = true;
-            while (zajête)
+            zajete = true;
+            while (zajete)
             {
-                zajête = false;
-                int dzióbStatku = UnityEngine.Random.Range(0, 99);
-                int losowyObrót = UnityEngine.Random.Range(0, 2);
-                int krok = losowyObrót == 0 ? 10 : 1;
+                zajete = false;
+                int dziobStatku = UnityEngine.Random.Range(0, 99);
+                int losowyObrot = UnityEngine.Random.Range(0, 2);
+                int krok = losowyObrot == 0 ? 10 : 1;
 
                 for (int i = 0; i < statek.Length; i++)
                 {
-                    if ((dzióbStatku - (krok * i)) < 0 || numeryPól[dzióbStatku - i * krok] < 0)
+                    if ((dziobStatku - (krok * i)) < 0 || numeryPol[dziobStatku - i * krok] < 0)
                     {
-                        zajête = true;
+                        zajete = true;
                         break;
                     }
-                    else if (krok == 1 && dzióbStatku / 10 != ((dzióbStatku - i * krok) - 1) / 10)
+                    else if (krok == 1 && dziobStatku / 10 != ((dziobStatku - i * krok) - 1) / 10)
                     {
-                        zajête = true;
+                        zajete = true;
                         break;
                     }
                 }
 
-                if (!zajête)
+                if (!zajete)
                 {
                     for (int j = 0; j < statek.Length; j++)
                     {
-                        statek[j] = numeryPól[dzióbStatku - j * krok];
-                        numeryPól[dzióbStatku - j * krok] = -1;
+                        statek[j] = numeryPol[dziobStatku - j * krok];
+                        numeryPol[dziobStatku - j * krok] = -1;
                     }
                 }
             }
         }
 
-        foreach (var x in statkiWroga)
+        foreach (int[] pole in statkiWroga)
         {
-            Debug.Log("x: " + x[0]);
+            string temp = "";
+            foreach (int numer in pole)
+            {
+                int indeks = numer - 1; // od 0
+                int wiersz = indeks / 10;       // 0–9  A–J
+                int kolumna = indeks % 10 + 1;  // 1–10
+
+                char litera = (char)('A' + wiersz);
+                temp += litera.ToString() + kolumna + " ";
+            }
+            Debug.Log("Statek wroga: " + temp);
         }
+
 
         return statkiWroga;
     }
@@ -105,19 +117,19 @@ public class SkryptWroga : MonoBehaviour
         {
             List<int> sasiedniePola = new List<int> { 1, -1, 10, -10 };
             int index = Random.Range(0, sasiedniePola.Count);
-            int mo¿liwaPropozycja = indeksyTrafien[0] + sasiedniePola[index];
-            bool naPlanszy = mo¿liwaPropozycja > -1 && mo¿liwaPropozycja < 100;
+            int mozliwaPropozycja = indeksyTrafien[0] + sasiedniePola[index];
+            bool naPlanszy = mozliwaPropozycja > -1 && mozliwaPropozycja < 100;
 
-            while ((!naPlanszy || siatkaZgadniec[mo¿liwaPropozycja] != 'o') && sasiedniePola.Count > 0)
+            while ((!naPlanszy || siatkaZgadniec[mozliwaPropozycja] != 'o') && sasiedniePola.Count > 0)
             {
                 sasiedniePola.RemoveAt(index);
                 if (sasiedniePola.Count == 0) break;
                 index = Random.Range(0, sasiedniePola.Count);
-                mo¿liwaPropozycja = indeksyTrafien[0] + sasiedniePola[index];
-                naPlanszy = mo¿liwaPropozycja > -1 && mo¿liwaPropozycja < 100;
+                mozliwaPropozycja = indeksyTrafien[0] + sasiedniePola[index];
+                naPlanszy = mozliwaPropozycja > -1 && mozliwaPropozycja < 100;
             }
 
-            zgadniecie = mo¿liwaPropozycja;
+            zgadniecie = mozliwaPropozycja;
         }
         else
         {
@@ -177,17 +189,17 @@ public class SkryptWroga : MonoBehaviour
         menadzerGry.GetComponent<MenadzerGry>().KoniecTuryWroga();
     }
 
-    public void WstrzymajIKoniec(int pud³o)
+    public void WstrzymajIKoniec(int pudlo)
     {
-        if (obecneTrafienia.Count > 0 && obecneTrafienia[0] > pud³o)
+        if (obecneTrafienia.Count > 0 && obecneTrafienia[0] > pudlo)
         {
             foreach (int potencjal in potencjalneTrafienia.ToList())
             {
-                if (obecneTrafienia[0] > pud³o && potencjal < pud³o)
+                if (obecneTrafienia[0] > pudlo && potencjal < pudlo)
                 {
                     potencjalneTrafienia.Remove(potencjal);
                 }
-                else if (obecneTrafienia[0] <= pud³o && potencjal > pud³o)
+                else if (obecneTrafienia[0] <= pudlo && potencjal > pudlo)
                 {
                     potencjalneTrafienia.Remove(potencjal);
                 }
