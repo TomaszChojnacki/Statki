@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class pole : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        GameObject[] pola = GameObject.FindGameObjectsWithTag("Pole");
+	void Start()
+	{
+		// Szukamy wszystkich obiektow na scenie ktore maja tag "Pole"
+		GameObject[] pola = GameObject.FindGameObjectsWithTag("Pole");
 
-        Debug.Log(" Lista wszystkich pól i ich pozycji:");
-        foreach (GameObject pole in pola)
-        {
-            Debug.Log(pole.name + " | Pozycja: " + pole.transform.position);
-        }
-    }
+		// Wypisujemy do konsoli info ze zaraz pokazemy liste wszystkich pol
+		Debug.Log(" Lista wszystkich pol i ich pozycji:");
 
-
+		// Przechodzimy przez wszystkie znalezione pola
+		foreach (GameObject pole in pola)
+		{
+			// Wypisujemy nazwe i pozycjê danego pola
+			Debug.Log(pole.name + " | Pozycja: " + pole.transform.position);
+		}
+	}
 }

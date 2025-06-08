@@ -4,100 +4,121 @@ using UnityEngine;
 
 public class SkryptStatku : MonoBehaviour
 {
-    public float przesuniecieX = 0;
-    public float przesuniecieZ = 0;
-    private float nastepnaRotacjaY = 90f;
-    private GameObject kliknietePole;
-    int licznikTrafien = 0;
-    public int rozmiarStatku;
+	// Przesuniecia statku wzgledem kliknietego pola ustawienie pozycji
+	public float przesuniecieX = 0;
+	public float przesuniecieZ = 0;
 
-    private Material[] wszystkieMaterialy;
+	// Kierunek kolejnego obrotu przod tyl
+	private float nastepnaRotacjaY = 90f;
 
-    List<GameObject> dotknietePola = new List<GameObject>();
-    List<Color> wszystkieKolory = new List<Color>();
+	// Referencja do klikniêtego pola na ktorym gracz chce postawic statek
+	private GameObject kliknietePole;
 
-    private void Start()
-    {
-        wszystkieMaterialy = GetComponent<Renderer>().materials;
-        for (int i = 0; i < wszystkieMaterialy.Length; i++)
-            wszystkieKolory.Add(wszystkieMaterialy[i].color);
-    }
+	// Licznik trafien w ten statek
+	int licznikTrafien = 0;
 
-    private void OnCollisionEnter(Collision kolizja)
-    {
-        if (kolizja.gameObject.CompareTag("Pole"))
-        {
-            dotknietePola.Add(kolizja.gameObject);
-        }
-    }
+	// Ile "pól" zajmuje statek
+	public int rozmiarStatku;
 
+	// Wszystkie materialy dla mrugania kolorami
+	private Material[] wszystkieMaterialy;
 
-    public void WyczyscListePol()
-    {
-        dotknietePola.Clear();
-    }
+	// Lista pol na ktorych statek aktualnie stoi wykrytych przez kolizje
+	List<GameObject> dotknietePola = new List<GameObject>();
 
-    public Vector3 PobierzPrzesuniecie(Vector3 pozycjaPola)
-    {
-        return new Vector3(pozycjaPola.x + przesuniecieX, 42, pozycjaPola.z + przesuniecieZ);
-    }
+	// Lista oryginalnych kolorow materialow do przywracania po mruganiu
+	List<Color> wszystkieKolory = new List<Color>();
 
+	private void Start()
+	{
+		// Pobieramy wszystkie materialy statku i zapisujemy ich kolory
+		wszystkieMaterialy = GetComponent<Renderer>().materials;
+		for (int i = 0; i < wszystkieMaterialy.Length; i++)
+			wszystkieKolory.Add(wszystkieMaterialy[i].color);
+	}
 
+	private void OnCollisionEnter(Collision kolizja)
+	{
+		// Jesli statek dotknie pola dodajemy je do listy aktualnych pol
+		if (kolizja.gameObject.CompareTag("Pole"))
+		{
+			dotknietePola.Add(kolizja.gameObject);
+		}
+	}
 
-    public void ObrocStatek()
-    {
-        if (kliknietePole == null) return;
-        dotknietePola.Clear();
-        transform.localEulerAngles += new Vector3(0, nastepnaRotacjaY, 0);
-        nastepnaRotacjaY *= -1;
-        float tymczasowe = przesuniecieX;
-        przesuniecieX = przesuniecieZ;
-        przesuniecieZ = tymczasowe;
-        UstawPozycje(kliknietePole.transform.position);
-    }
+	// Czysci liste dotknietych pol przy obrocie lub zmianie pozycji
+	public void WyczyscListePol()
+	{
+		dotknietePola.Clear();
+	}
 
-    public void UstawPozycje(Vector3 nowaPozycja)
-    {
-        WyczyscListePol();
-        transform.localPosition = new Vector3(nowaPozycja.x + przesuniecieX, 42, nowaPozycja.z + przesuniecieZ);
+	// Zwraca nowz pozycje na podstawie przesuniecia wzgledem kliknietego pola
+	public Vector3 PobierzPrzesuniecie(Vector3 pozycjaPola)
+	{
+		return new Vector3(pozycjaPola.x + przesuniecieX, 42, pozycjaPola.z + przesuniecieZ);
+	}
 
+	// Obraca statek zmienia rotacjê i aktualizuje przesuniecia osi
+	public void ObrocStatek()
+	{
+		if (kliknietePole == null) return; // nie obracamy jesli nic nie kliknieto
 
-    }
+		dotknietePola.Clear(); // resetujemy kolizje
+		transform.localEulerAngles += new Vector3(0, nastepnaRotacjaY, 0); // obrot
+		nastepnaRotacjaY *= -1; // zmieniamy kierunek na nastepny raz
 
+		// Zamieniamy przesuniecia osi bo po obrocie sa odwrotne
+		float tymczasowe = przesuniecieX;
+		przesuniecieX = przesuniecieZ;
+		przesuniecieZ = tymczasowe;
 
+		// Przestawiamy statek na nowa pozycjê z nowym przesunieciem
+		UstawPozycje(kliknietePole.transform.position);
+	}
 
+	// Ustawia statek na konkretnej pozycji
+	public void UstawPozycje(Vector3 nowaPozycja)
+	{
+		WyczyscListePol(); // resetujemy kolizje
+		transform.localPosition = new Vector3(nowaPozycja.x + przesuniecieX, 42, nowaPozycja.z + przesuniecieZ);
+	}
 
-    public void UstawKliknietePole(GameObject pole)
-    {
-        kliknietePole = pole;
-    }
+	// Ustawia pole na ktore gracz kliknak jako punkt odniesienia
+	public void UstawKliknietePole(GameObject pole)
+	{
+		kliknietePole = pole;
+	}
 
-    public bool NaPlanszy()
-    {
-        return dotknietePola.Count == rozmiarStatku;
-    }
+	// Sprawdza czy statek jest w pelni na planszy dotyka tylu pol ile powinien
+	public bool NaPlanszy()
+	{
+		return dotknietePola.Count == rozmiarStatku;
+	}
 
-    public bool SprawdzCzyZatopiony()
-    {
-        licznikTrafien++;
-        return rozmiarStatku <= licznikTrafien;
-    }
+	// Zwieksza licznik trafien i sprawdza czy caly statek zostal zatopiony
+	public bool SprawdzCzyZatopiony()
+	{
+		licznikTrafien++;
+		return rozmiarStatku <= licznikTrafien;
+	}
 
-    public void MrugajKolorem(Color tymczasowyKolor)
-    {
-        foreach (Material mat in wszystkieMaterialy)
-        {
-            mat.color = tymczasowyKolor;
-        }
-        Invoke("ResetujKolor", 0.5f);
-    }
+	// Sprawia ze statek mruga danym kolorem przez chwile sygnal bledu
+	public void MrugajKolorem(Color tymczasowyKolor)
+	{
+		foreach (Material mat in wszystkieMaterialy)
+		{
+			mat.color = tymczasowyKolor;
+		}
+		Invoke("ResetujKolor", 0.5f); // po pol sekundy przywracamy kolor
+	}
 
-    private void ResetujKolor()
-    {
-        int i = 0;
-        foreach (Material mat in wszystkieMaterialy)
-        {
-            mat.color = wszystkieKolory[i++];
-        }
-    }
+	// Przywraca oryginalne kolory materialow
+	private void ResetujKolor()
+	{
+		int i = 0;
+		foreach (Material mat in wszystkieMaterialy)
+		{
+			mat.color = wszystkieKolory[i++];
+		}
+	}
 }
