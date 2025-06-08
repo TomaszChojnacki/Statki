@@ -4,32 +4,49 @@ using UnityEngine;
 
 public class SkryptOgnia : MonoBehaviour
 {
-    public GameObject czerwonyOgien;
-    public GameObject zoltyOgien;
-    public GameObject pomaranczowyOgien;
-    int licznik;
+	public GameObject czerwonyOgien;
+	public GameObject zoltyOgien;
+	public GameObject pomaranczowyOgien;
 
-    List<Color> koloryOgnia = new List<Color> { Color.red, Color.yellow, new Color(1.0f, 0.64f, 0) };
+	private int licznik = 0;
+	private List<Color> koloryBazowe;
 
-    void FixedUpdate()
-    {
-        if (licznik > 30)
-        {
-            koloryOgnia.Add(Color.red);
-            int losowy = Random.Range(0, koloryOgnia.Count);
-            czerwonyOgien.GetComponent<Renderer>().material.SetColor("_Color", koloryOgnia[losowy]);
-            koloryOgnia.RemoveAt(losowy);
+	void Start()
+	{
+		// Bazowe kolory (pocz¹tkowe)
+		koloryBazowe = new List<Color> {
+			Color.red,
+			Color.yellow,
+			new Color(1.0f, 0.64f, 0f) // pomarañczowy
+        };
+	}
 
-            losowy = Random.Range(0, koloryOgnia.Count);
-            pomaranczowyOgien.GetComponent<Renderer>().material.SetColor("_Color", koloryOgnia[losowy]);
-            koloryOgnia.RemoveAt(losowy);
+	void FixedUpdate()
+	{
+		licznik++;
+		if (licznik > 30)
+		{
+			// Tworzymy losow¹ kopiê listy
+			List<Color> losoweKolory = new List<Color>(koloryBazowe);
+			Shuffle(losoweKolory);
 
-            zoltyOgien.GetComponent<Renderer>().material.SetColor("_Color", koloryOgnia[0]);
+			czerwonyOgien.GetComponent<Renderer>().material.color = losoweKolory[0];
+			zoltyOgien.GetComponent<Renderer>().material.color = losoweKolory[1];
+			pomaranczowyOgien.GetComponent<Renderer>().material.color = losoweKolory[2];
 
-            koloryOgnia.Clear();
-            koloryOgnia = new List<Color> { Color.red, Color.yellow, new Color(1.0f, 0.64f, 0) };
-            licznik = 0;
-        }
-        licznik++;
-    }
+			licznik = 0;
+		}
+	}
+
+	// Prosta metoda do losowania kolejnoœci listy
+	void Shuffle(List<Color> lista)
+	{
+		for (int i = lista.Count - 1; i > 0; i--)
+		{
+			int j = Random.Range(0, i + 1);
+			Color temp = lista[i];
+			lista[i] = lista[j];
+			lista[j] = temp;
+		}
+	}
 }
